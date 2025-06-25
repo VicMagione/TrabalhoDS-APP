@@ -21,7 +21,7 @@ export class ConsultarClientesComponent {
   }
 
   editarCliente(funcionario: Cliente): void {
-    this.router.navigate(['/cadastrar', funcionario.id]);
+    this.router.navigate(['/cliente', funcionario.id]);
   }
 
   excluirCliente(id: number): void {
