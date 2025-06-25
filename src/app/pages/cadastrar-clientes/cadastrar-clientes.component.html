@@ -1,0 +1,9 @@
+<h2>Cadastrar Funcionário</h2>
+
+<form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+  <label>Nome: <input formControlName="nome"></label><br />
+  <label>CPF: <input formControlName="cpf"></label><br />
+  <label>Email: <input formControlName="email"></label><br />
+  <label>Número: <input formControlName="numero"></label><br />
+  <button type="submit" [disabled]="formulario.invalid">Cadastrar</button>
+</form>
