@@ -22,6 +22,8 @@ export class CadastrarClienteComponent {
       id: [0], // campo opcional para identificar edição
       nome: ['', Validators.required],
       email: ['', Validators.required],
+      senha:['',Validators.required],
+      nivelAcesso:['',Validators.required],
       cpf: ['', Validators.required],
       telefone: ['', Validators.required],
     });

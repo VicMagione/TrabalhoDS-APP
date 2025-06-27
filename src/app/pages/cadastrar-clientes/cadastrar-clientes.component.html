@@ -1,9 +1,11 @@
 <h2>Cadastrar Funcionário</h2>
 
 <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
-  <label>Nome: <input formControlName="nome"></label><br />
-  <label>CPF: <input formControlName="cpf"></label><br />
-  <label>Email: <input formControlName="email"></label><br />
-  <label>Número: <input formControlName="numero"></label><br />
-  <button type="submit" [disabled]="formulario.invalid">Cadastrar</button>
+    <label>Nome: <input formControlName="nome"></label><br />
+    <label>CPF: <input formControlName="cpf"></label><br />
+    <label>Email: <input formControlName="email"></label><br />
+    <label>Senha: <input formControlName="senha"></label><br />
+    <label>Nivel de Acesso: <input formControlName="nivelAcesso"></label><br />
+    <label>Telefone: <input formControlName="telefone"></label><br />
+    <button type="submit" [disabled]="formulario.invalid">Cadastrar</button>
 </form>

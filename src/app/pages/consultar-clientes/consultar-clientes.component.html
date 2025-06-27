@@ -1,25 +1,27 @@
 <h2>Clientes Cadastrados</h2>
 
 <table border="1" cellpadding="8" cellspacing="0">
-  <thead>
-    <tr>
-      <th>Nome</th>
-      <th>CPF</th>
-      <th>Email</th>
-      <th>Telefone</th>
-      <th>Ações</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let cliente of clientes">
-      <td>{{ cliente.nome }}</td>
-      <td>{{ cliente.cpf }}</td>
-      <td>{{ cliente.email }}</td>
-      <td>{{ cliente.telefone }}</td>
-      <td>
-        <button (click)="editarCliente(cliente)">Editar</button>
-        <button (click)="excluirCliente(cliente.id!)">Excluir</button>
-      </td>
-    </tr>
-  </tbody>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Email</th>
+            <th>Telefone</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let cliente of clientes">
+            <td>{{ cliente.id }}</td>
+            <td>{{ cliente.nome }}</td>
+            <td>{{ cliente.cpf }}</td>
+            <td>{{ cliente.email }}</td>
+            <td>{{ cliente.telefone }}</td>
+            <td>
+                <button (click)="editarCliente(cliente)">Editar</button>
+                <button (click)="excluirCliente(cliente.id!)">Excluir</button>
+            </td>
+        </tr>
+    </tbody>
 </table>

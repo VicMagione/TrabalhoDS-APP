@@ -10,5 +10,5 @@ import {MenuComponent} from './shared/menu/menu.component'
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'guia12-app02';
+  title = 'APP-Trabalho';
 }
