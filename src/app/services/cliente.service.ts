@@ -20,9 +20,9 @@ export class ClienteService {
 
   salvar(cliente: Cliente): Observable<Cliente> {
     if (cliente.id) {
-      return this.http.put<Cliente>(`${this.apiUrl}/${cliente.id}`, cliente,this.loginService.gerarCabecalhoHTTP());
+      return this.http.put<Cliente>(`${this.apiUrl}/${cliente.id}`, cliente);
     } else {
-      return this.http.post<Cliente>(this.apiUrl, cliente,this.loginService.gerarCabecalhoHTTP());
+      return this.http.post<Cliente>(this.apiUrl, cliente);
     }
   }
 

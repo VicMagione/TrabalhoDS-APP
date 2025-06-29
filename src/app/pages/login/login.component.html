@@ -1,26 +1,47 @@
-<div class="container mt-4">
-  <h2 class="mb-4 border-bottom border-3 border-danger">Autenticar Usuário</h2>
-  <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+<div class="container mat-elevation-z8">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title class="border-bottom border-3 border-danger">
+        Autenticar Usuário
+      </mat-card-title>
+    </mat-card-header>
 
-    <div class="row">
-      <div class="col-md-12">
-        <label for="cpf" class="form-label">CPF</label>
-        <input id="cpf" type="text" class="form-control" formControlName="cpf">
-      </div>
-    </div>
+    <mat-card-content>
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>CPF</mat-label>
+              <input matInput id="cpf" type="text" formControlName="cpf">
+              <mat-icon matSuffix>badge</mat-icon>
+              <mat-hint>Informe seu CPF</mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
 
-    <div class="row">
-      <div class="col-md-12">
-        <label for="senha" class="form-label">Senha</label>
-        <input id="senha" type="password" class="form-control" formControlName="senha">
-      </div>
-    </div>
+        <div class="row">
+          <div class="col-md-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Senha</mat-label>
+              <input matInput id="senha" type="password" formControlName="senha">
+              <mat-icon matSuffix>lock</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
 
-    <div class="d-flex justify-content-end mt-3">
-      <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">
-        Entrar
-      </button>
-    </div>
-
-  </form>
+        <div class="d-flex justify-content-end mt-3">
+          <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
+            <mat-icon>login</mat-icon> Entrar
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
 </div>
+<div class="d-flex justify-content-end mt-3">
+  <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">
+    Entrar
+  </button>
+</div>
+
+

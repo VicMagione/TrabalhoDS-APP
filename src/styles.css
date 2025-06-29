@@ -1,1 +1,41 @@
-/* You can add global styles to this file, and also import other style files */
+.container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.home-card {
+  max-width: 800px;
+  margin: 2rem auto;
+  text-align: center;
+}
+
+.home-content {
+  padding: 2rem;
+}
+
+.home-icon {
+  font-size: 5rem;
+  height: 5rem;
+  width: 5rem;
+  color: #3f51b5;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+.form-container {
+  padding: 1rem;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 1rem;
+}

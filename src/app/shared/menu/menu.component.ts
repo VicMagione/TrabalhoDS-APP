@@ -14,8 +14,8 @@ export class MenuComponent {
   nivel = 'ADMIN';
 
   menu = [
-    { descricao: 'Clientes', rota: '/clientes', niveis: ['ADMIN', 'GESTOR', 'CLIENTE'] },
-    { descricao: 'Contas', rota: '/contas', niveis: ['ADMIN', 'GESTOR'] }
+    { descricao: 'Consultar Clientes', rota: '/consultar', niveis: ['ADMIN', 'GESTOR', 'CLIENTE'] },
+    { descricao: 'Cadastrar Clientes', rota: '/cadastrar', niveis: ['ADMIN', 'GESTOR'] }
   ];
   constructor(private loginService: LoginService){}
 

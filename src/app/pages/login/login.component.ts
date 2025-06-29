@@ -4,10 +4,24 @@ import { LoginService } from '../../services/login.service';
 import { Token } from '../../models/token';
 import { Router } from '@angular/router';
 
+// Importações do Angular Material
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableModule } from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
+
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,MatCardModule,MatSelectModule,
+      MatIconModule,
+      MatButtonModule,
+      MatFormFieldModule,
+      MatInputModule,
+      MatTableModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
