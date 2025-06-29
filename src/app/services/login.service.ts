@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { appSettings } from '../app.config';
 import { Token } from '../models/token';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  private apiUrl = `${appSettings.apiBaseUrl}/auth`;
+  private apiUrl = `${appSettings.apiBaseUrl}/auth/login`;
 
   constructor(private http: HttpClient) { }
 
-  autenticar(login: string, senha: string): Observable<Token> {
-    const objetoJS = { login, senha };
+  autenticar(cpf: string, senha: string): Observable<Token> {
+    const objetoJS = { cpf, senha };
     return this.http.post<Token>(this.apiUrl, objetoJS);
   }
 
@@ -29,4 +30,28 @@ export class LoginService {
   limparToken(): void {
     localStorage.removeItem("Token");
   }
+
+  extrairDadosToken(): any | null {
+    const token = this.obterToken();
+    if (!token) return null;
+
+    try {
+      const dadosToken = jwtDecode(token);
+      return dadosToken;
+    } catch (err) {
+      console.error('Token inválido:', err);
+      return null;
+    }
+  }
+
+  gerarCabecalhoHTTP() {
+    const token = this.obterToken();
+    return {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + token
+      })
+    };
+  }
+
+
 }

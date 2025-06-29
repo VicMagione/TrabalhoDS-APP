@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { LoginService } from '../services/login.service';
-import { Token } from '../models/token';
+import { LoginService } from '../../services/login.service';
+import { Token } from '../../models/token';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,7 +17,7 @@ export class LoginComponent {
 
   constructor(private formBuilder: FormBuilder, private loginService: LoginService, private router: Router) {
     this.formGroup = this.formBuilder.group({
-      login: ['', Validators.required],
+      cpf: ['', Validators.required],
       senha: ['', Validators.required]
     });
 
@@ -32,7 +32,7 @@ export class LoginComponent {
     if (this.formGroup.valid) {
       const formValue = this.formGroup.value;
 
-      this.loginService.autenticar(formValue.login, formValue.senha).subscribe({
+      this.loginService.autenticar(formValue.cpf, formValue.senha).subscribe({
         next: (resposta) => {
           this.token = resposta;
           this.loginService.salvarToken(this.token.accessToken);

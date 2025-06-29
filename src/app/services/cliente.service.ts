@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Cliente } from '../models/cliente';
 import { appSettings } from '../app.config';
+import { LoginService } from './login.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,25 +12,25 @@ export class ClienteService {
 
   private apiUrl = `${appSettings.apiBaseUrl}/clientes`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private loginService:LoginService) { }
 
   listar(): Observable<Cliente[]> {
-    return this.http.get<Cliente[]>(this.apiUrl);
+    return this.http.get<Cliente[]>(this.apiUrl,this.loginService.gerarCabecalhoHTTP());
   }
 
   salvar(cliente: Cliente): Observable<Cliente> {
     if (cliente.id) {
-      return this.http.put<Cliente>(`${this.apiUrl}/${cliente.id}`, cliente);
+      return this.http.put<Cliente>(`${this.apiUrl}/${cliente.id}`, cliente,this.loginService.gerarCabecalhoHTTP());
     } else {
-      return this.http.post<Cliente>(this.apiUrl, cliente);
+      return this.http.post<Cliente>(this.apiUrl, cliente,this.loginService.gerarCabecalhoHTTP());
     }
   }
 
   buscarPorId(id: number): Observable<Cliente> {
-    return this.http.get<Cliente>(`${this.apiUrl}/${id}`);
+    return this.http.get<Cliente>(`${this.apiUrl}/${id}`,this.loginService.gerarCabecalhoHTTP());
   }
 
   excluir(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/${id}`,this.loginService.gerarCabecalhoHTTP());
   }
 }
