@@ -12,10 +12,10 @@ export class ClienteService {
 
   private apiUrl = `${appSettings.apiBaseUrl}/clientes`;
 
-  constructor(private http: HttpClient,private loginService:LoginService) { }
+  constructor(private http: HttpClient, private loginService: LoginService) { }
 
   listar(): Observable<Cliente[]> {
-    return this.http.get<Cliente[]>(this.apiUrl,this.loginService.gerarCabecalhoHTTP());
+    return this.http.get<Cliente[]>(this.apiUrl, this.loginService.gerarCabecalhoHTTP());
   }
 
   salvar(cliente: Cliente): Observable<Cliente> {
@@ -27,10 +27,14 @@ export class ClienteService {
   }
 
   buscarPorId(id: number): Observable<Cliente> {
-    return this.http.get<Cliente>(`${this.apiUrl}/${id}`,this.loginService.gerarCabecalhoHTTP());
+    return this.http.get<Cliente>(`${this.apiUrl}/${id}`, this.loginService.gerarCabecalhoHTTP());
   }
 
+  // cliente.service.ts
   excluir(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`,this.loginService.gerarCabecalhoHTTP());
+    return this.http.delete<void>(
+      `${this.apiUrl}/${id}`,
+      this.loginService.gerarCabecalhoHTTP() // Garante o envio do token
+    );
   }
 }

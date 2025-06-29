@@ -25,7 +25,7 @@ export class MenuComponent {
 
   if (dadosToken && dadosToken.roles) {
     // Remove "ROLE_" com a expressão regular /ROLE_/ 
-    this.nivel = dadosToken.roles.replace(/ROLE_/, '');
+    this.nivel = dadosToken.roles.replace(/ROLE_/,'');
   } else {
     console.warn('Não foi possível determinar o nível do usuário a partir do token.');
   }

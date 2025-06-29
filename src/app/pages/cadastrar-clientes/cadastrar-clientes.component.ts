@@ -40,13 +40,12 @@ export class CadastrarClienteComponent {
 
   constructor(private fb: FormBuilder, private clienteService: ClienteService, private route: ActivatedRoute, private router: Router) {
     this.formulario = this.fb.group({
-      id: [0], // campo opcional para identificar edição
       nome: ['', Validators.required],
-      email: ['', Validators.required],
-      senha:['',Validators.required],
-      nivelAcesso:['',Validators.required],
       cpf: ['', Validators.required],
-      telefone: ['', Validators.required],
+      senha: ['', Validators.required],
+      nivelAcesso: ['ADMIN', Validators.required], // Valor padrão "ADMIN"
+      email: ['', [Validators.required]],
+      telefone: ['', Validators.required]
     });
   }
 
