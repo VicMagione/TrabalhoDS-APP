@@ -11,6 +11,6 @@ export const routes: Routes = [
   { path: 'cadastrar', component: CadastrarClienteComponent },
   { path: 'cadastrar/:id', component: CadastrarClienteComponent },
   { path: 'consultar', component: ConsultarClientesComponent },
-  { path: 'consultar contas', component: ConsultarContasComponent },
+  { path: 'contas', component: ConsultarContasComponent },
   { path: '', component: LoginComponent}
 ];

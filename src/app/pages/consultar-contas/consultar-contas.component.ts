@@ -30,7 +30,7 @@ import { ContasService } from '../../services/contas.service';
 })
 export class ConsultarContasComponent {
   contas: Conta[] = [];
-  displayedColumns: string[] = ['id', 'numero', 'saldo', 'limite', 'chavePIX', 'acoes'];
+  displayedColumns: string[] = ['id','cliente', 'numero', 'saldo', 'limite', 'chavePIX', 'acoes'];
   constructor(private clienteService: ClienteService, 
     private router: Router,
     private loginService: LoginService,
@@ -74,4 +74,8 @@ export class ConsultarContasComponent {
       this.contas = contas;
     });
   }
+
+  calcularSaldoTotal(): number {
+  return this.contas.reduce((total, conta) => total + (conta.saldo || 0), 0);
+}
 }
