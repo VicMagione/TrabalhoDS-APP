@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { LoginService } from '../../services/login.service';
 import { Token } from '../../models/token';
+import { LoginService } from '../../services/login.service';
+
 import { Router } from '@angular/router';
 
 // Importações do Angular Material
@@ -12,16 +13,17 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
+import { SaldoService } from '../../services/saldo.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule,MatCardModule,MatSelectModule,
-      MatIconModule,
-      MatButtonModule,
-      MatFormFieldModule,
-      MatInputModule,
-      MatTableModule],
+  imports: [ReactiveFormsModule, MatCardModule, MatSelectModule,
+    MatIconModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -29,7 +31,9 @@ export class LoginComponent {
   formGroup: FormGroup;
   token: Token;
 
-  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private loginService: LoginService,
+    private saldoService: SaldoService,
+    private router: Router) {
     this.formGroup = this.formBuilder.group({
       cpf: ['', Validators.required],
       senha: ['', Validators.required]
@@ -50,12 +54,17 @@ export class LoginComponent {
         next: (resposta) => {
           this.token = resposta;
           this.loginService.salvarToken(this.token.accessToken);
-          this.router.navigate(['/home']);
+          this.saldoService.carregarSaldoInicial();
+          this.router.navigate(['/home']).then(() => window.location.reload());;
         },
         error: (err) => {
           alert('Login ou senha inválidos.');
         }
       });
     }
+  }
+
+  redirectToCadastro(): void {
+    this.router.navigate(['/cadastrar']);
   }
 }

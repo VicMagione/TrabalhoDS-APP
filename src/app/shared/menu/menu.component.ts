@@ -1,36 +1,74 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 import { LoginService } from '../../services/login.service';
+import { ClienteService } from '../../services/cliente.service';
+
+// Angular Material imports
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MatDividerModule
+  ],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
-export class MenuComponent {
-  nivel = 'ADMIN';
+export class MenuComponent implements OnInit {
+  nivel = 'CLIENTE';
+  nomeCliente: string = '';
+  estaAutenticado = false; // Adicione esta propriedade
+
 
   menu = [
-    { descricao: 'Home', rota: '/home', niveis: ['ADMIN', 'GESTOR', 'CLIENTE'] },
-    { descricao: 'Consultar Contas', rota: '/contas', niveis: ['ADMIN', 'GESTOR', 'CLIENTE'] },
-    { descricao: 'Consultar Clientes', rota: '/consultar', niveis: ['ADMIN', 'GESTOR', 'CLIENTE'] },
-    { descricao: 'Cadastrar Clientes', rota: '/cadastrar', niveis: ['ADMIN', 'GESTOR'] }
+    { descricao: 'Home', rota: '/home', icone: 'home', niveis: ['ADMIN', 'GESTOR', 'CLIENTE'] },
+    { descricao: 'Consultar Contas', rota: '/contas', icone: 'account_balance', niveis: ['ADMIN', 'GESTOR', 'CLIENTE'] },
+    { descricao: 'Consultar Clientes', rota: '/consultar', icone: 'people', niveis: ['ADMIN', 'GESTOR', 'CLIENTE'] }
   ];
-  constructor(private loginService: LoginService){}
 
-  ngOnInit(): void {
-  const dadosToken = this.loginService.extrairDadosToken();
-  console.log(dadosToken);
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private clienteService: ClienteService
+  ) { }
 
-  if (dadosToken && dadosToken.roles) {
-    // Remove "ROLE_" com a expressão regular /ROLE_/ 
-    this.nivel = dadosToken.roles.replace(/ROLE_/,'');
-  } else {
-    console.warn('Não foi possível determinar o nível do usuário a partir do token.');
+   ngOnInit(): void {
+    this.verificarAutenticacao();
   }
-}
 
+  verificarAutenticacao(): void {
+    this.estaAutenticado = this.loginService.estaAutenticado();
+    
+    if (this.estaAutenticado) {
+      const dadosToken = this.loginService.extrairDadosToken();
+      const clienteId = this.loginService.getClienteIdFromToken();
+
+      if (dadosToken?.roles) {
+        this.nivel = dadosToken.roles.replace(/ROLE_/, '');
+      }
+
+      if (clienteId) {
+        this.clienteService.getClienteById(clienteId).subscribe({
+          next: (cliente) => this.nomeCliente = cliente.nome,
+          error: () => console.warn('Não foi possível carregar o nome do cliente')
+        });
+      }
+    }
+  }
+  logout(): void {
+    this.loginService.limparToken();
+    this.router.navigate(['/login']).then(() => window.location.reload());
+  }
 }

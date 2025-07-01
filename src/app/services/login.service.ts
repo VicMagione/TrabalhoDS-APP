@@ -43,6 +43,13 @@ export class LoginService {
       return null;
     }
   }
+  getClienteIdFromToken(): number | null {
+    const token = this.obterToken();
+    if (!token) return null;
+
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return Number(payload.sub);
+  }
 
   gerarCabecalhoHTTP() {
     const token = this.obterToken();
@@ -52,6 +59,9 @@ export class LoginService {
       })
     };
   }
+  estaAutenticado(): boolean {
+  return !!this.obterToken(); // Retorna true se existir token
+}
 
 
 }

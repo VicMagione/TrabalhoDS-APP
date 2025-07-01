@@ -39,13 +39,10 @@ export class ConsultarContasComponent {
   private contasService: ContasService) { }
 
   ngOnInit(): void {
-        this.carregarSaldoDoCliente();
     this.carregarConta();
   }
 
-  editarConta(conta: Conta): void {
-    this.router.navigate(['/contas', conta.id]);
-  }
+  
 
  excluirConta(id: number): void {
     const dadosToken = this.loginService.extrairDadosToken();
@@ -78,15 +75,5 @@ export class ConsultarContasComponent {
     });
   }
 
-  carregarSaldoDoCliente(): void {
-    const dadosToken = this.loginService.extrairDadosToken();
-    const clienteId = Number(dadosToken.sub); // Assume que 'sub' contém o ID do cliente
-
-    this.contasService.getSaldoTotalPorCliente(clienteId).subscribe({
-      next: (saldo) => {
-        this.saldoService.atualizarSaldoTotal(saldo);
-      },
-      error: (err) => console.error('Erro ao carregar saldo:', err)
-    });
-  }
+  
 }

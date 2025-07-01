@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { Cliente } from '../models/cliente';
 import { appSettings } from '../app.config';
 import { LoginService } from './login.service';
@@ -20,7 +20,7 @@ export class ClienteService {
 
   salvar(cliente: Cliente): Observable<Cliente> {
     if (cliente.id) {
-      return this.http.put<Cliente>(`${this.apiUrl}/${cliente.id}`, cliente);
+      return this.http.put<Cliente>(`${this.apiUrl}/${cliente.id}`, cliente,this.loginService.gerarCabecalhoHTTP());
     } else {
       return this.http.post<Cliente>(this.apiUrl, cliente);
     }
@@ -37,4 +37,13 @@ export class ClienteService {
       this.loginService.gerarCabecalhoHTTP() // Garante o envio do token
     );
   }
+
+  getClienteById(id: number): Observable<Cliente> {
+  return this.http.get<Cliente>(`${this.apiUrl}/${id}`,this.loginService.gerarCabecalhoHTTP()).pipe(
+    catchError((err) => {
+      console.error('Erro na requisição:', err);
+      return of({ nome: 'Usuário' } as Cliente); // Retorna um objeto padrão em caso de erro
+    })
+  );
+}
 }

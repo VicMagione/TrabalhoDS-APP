@@ -15,7 +15,7 @@
                 <!-- Coluna do Cliente -->
                 <ng-container matColumnDef="cliente">
                     <th mat-header-cell *matHeaderCellDef>Cliente</th>
-                    <td mat-cell *matCellDef="let conta">{{ conta.cliente.nome | uppercase }}</td>
+                    <td mat-cell *matCellDef="let conta">{{ conta.cliente.nome }}</td>
                 </ng-container>
 
                 <!-- Numero Column -->
@@ -46,9 +46,6 @@
                 <ng-container matColumnDef="acoes">
                     <th mat-header-cell *matHeaderCellDef>Ações</th>
                     <td mat-cell *matCellDef="let conta">
-                        <button mat-icon-button color="primary" (click)="editarConta(conta)">
-                            <mat-icon>edit</mat-icon>
-                        </button>
                         <button mat-icon-button color="warn" (click)="excluirConta(conta.id!)">
                             <mat-icon>delete</mat-icon>
                         </button>

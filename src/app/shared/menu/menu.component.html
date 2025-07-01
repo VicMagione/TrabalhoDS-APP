@@ -1,20 +1,33 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Banco</a>
+<mat-toolbar color="primary" class="mat-elevation-z4" *ngIf="estaAutenticado">
+  <span>Banco</span>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+  <nav class="menu-items">
+    <ng-container *ngFor="let item of menu">
+      <a 
+        mat-button 
+        [routerLink]="item.rota" 
+        routerLinkActive="active-link"
+        *ngIf="item.niveis.includes(nivel)"
+      >
+        <mat-icon>{{item.icone}}</mat-icon>
+        {{item.descricao}}
+      </a>
+    </ng-container>
+  </nav>
+
+  <span class="spacer"></span>
+
+  <div class="user-info">
+    <span class="user-name">{{nomeCliente}}</span>
+    <button mat-icon-button [matMenuTriggerFor]="userMenu">
+      <mat-icon>account_circle</mat-icon>
     </button>
-
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item" *ngFor="let item of menu">
-          <a class="nav-link" [routerLink]="item.rota" routerLinkActive="active" *ngIf="item.niveis.includes(nivel)">
-            {{ item.descricao }}
-          </a>
-        </li>
-      </ul>
-    </div>
   </div>
-</nav>
+
+  <mat-menu #userMenu="matMenu">
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Sair</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>

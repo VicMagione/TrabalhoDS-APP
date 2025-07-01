@@ -1,6 +1,6 @@
 <mat-card class="home-card">
   <mat-card-header>
-    <mat-card-title>Bem-vindo ao Sistema</mat-card-title>
+<mat-card-title>Bem-vindo, {{ nomeCliente }}</mat-card-title>
     <mat-card-subtitle *ngIf="saldoTotal$ | async as saldo">
       Seu saldo total: {{ saldo | currency:'BRL':'R$ ':'1.2-2' }}
     </mat-card-subtitle> </mat-card-header>

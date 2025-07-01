@@ -34,14 +34,21 @@
             <mat-icon>login</mat-icon> Entrar
           </button>
         </div>
+        <!-- Botão de redirecionamento para cadastro -->
+      <div class="d-flex justify-content-center mt-3">
+        <button 
+          mat-raised-button 
+          color="accent" 
+          (click)="redirectToCadastro()"
+          class="w-100"
+        >
+          <mat-icon>person_add</mat-icon> Criar Nova Conta
+        </button>
+      </div>
       </form>
     </mat-card-content>
   </mat-card>
 </div>
-<div class="d-flex justify-content-end mt-3">
-  <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">
-    Entrar
-  </button>
-</div>
+
 
 

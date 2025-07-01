@@ -16,13 +16,15 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { LoginService } from '../../services/login.service';
+import { SaldoService } from '../../services/saldo.service';
 
 @Component({
   selector: 'app-cadastrar-cliente',
   standalone: true,
-  imports: [CommonModule, 
+  imports: [CommonModule,
     ReactiveFormsModule,
-   MatCardModule,MatSelectModule,
+    MatCardModule, MatSelectModule,
     MatIconModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -38,7 +40,11 @@ export class CadastrarClienteComponent {
 
   formulario: FormGroup;
 
-  constructor(private fb: FormBuilder, private clienteService: ClienteService, private route: ActivatedRoute, private router: Router) {
+  constructor(private fb: FormBuilder, private clienteService: ClienteService,
+    private loginService: LoginService,
+    private saldoService: SaldoService,
+    private route: ActivatedRoute,
+    private router: Router) {
     this.formulario = this.fb.group({
       nome: ['', Validators.required],
       cpf: ['', Validators.required],
@@ -61,10 +67,27 @@ export class CadastrarClienteComponent {
 
   onSubmit(): void {
     if (this.formulario.valid) {
-      this.clienteService.salvar(this.formulario.value).subscribe(() => {
-        alert('Cliente cadastrado com sucesso!');
-        this.formulario.reset();
-        this.router.navigate(['/consultar']);
+      this.clienteService.salvar(this.formulario.value).subscribe({
+        next: (clienteSalvo) => {
+          alert('Cliente cadastrado com sucesso!');
+          this.loginService.autenticar(
+            this.formulario.value.cpf,
+            this.formulario.value.senha
+          ).subscribe({
+            next: (token) => {
+              this.loginService.salvarToken(token.accessToken);
+              this.saldoService.carregarSaldoInicial();
+              this.router.navigate(['/home']).then(() => window.location.reload());
+            },
+            error: (err) => {
+              console.error('Erro ao autenticar após cadastro:', err);
+              this.router.navigate(['/login']).then(() => window.location.reload());
+            }
+          });
+        },
+        error: (err) => {
+          alert('Erro ao cadastrar cliente: ' + (err.error?.message || err.statusText));
+        }
       });
     }
   }

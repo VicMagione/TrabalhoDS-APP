@@ -4,6 +4,9 @@ import { ClienteService } from '../../services/cliente.service';
 import { Cliente } from '../../models/cliente';
 import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
+import { EditarClienteComponent } from '../../components/editar-cliente/editar-cliente.component'; 
+import { MatDialog } from '@angular/material/dialog';
+
 
 // Importações do Angular Material
 import { MatCardModule } from '@angular/material/card';
@@ -29,15 +32,34 @@ import { MatSelectModule } from '@angular/material/select';
 export class ConsultarClientesComponent {
   clientes: Cliente[] = [];
   displayedColumns: string[] = ['id', 'nome', 'cpf', 'email', 'telefone', 'acoes'];
-  constructor(private clienteService: ClienteService, private router: Router,private loginService: LoginService) { }
+  constructor(private clienteService: ClienteService, private router: Router,
+      private dialog: MatDialog,
+    private loginService: LoginService) { }
 
   ngOnInit(): void {
     this.carregarCliente();
   }
 
   editarCliente(cliente: Cliente): void {
-    this.router.navigate(['/clientes', cliente.id]);
-  }
+  const dialogRef = this.dialog.open(EditarClienteComponent, {
+    width: '500px',
+    data: { cliente }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.clienteService.salvar(result).subscribe({
+        next: () => {
+          alert('Cliente atualizado com sucesso!');
+          this.carregarCliente();
+        },
+        error: (err) => {
+          alert('Erro ao atualizar: ' + (err.error?.message || err.statusText));
+        }
+      });
+    }
+  });
+}
 
  excluirCliente(id: number): void {
     const dadosToken = this.loginService.extrairDadosToken();
