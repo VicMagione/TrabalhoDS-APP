@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
-import { SaldoService } from '../../shared/saldo.service';
+import { SaldoService } from '../../services/saldo.service';
 import { CommonModule } from '@angular/common'; // Adicione esta linha
 
 
@@ -25,12 +25,7 @@ import { CommonModule } from '@angular/common'; // Adicione esta linha
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  saldoTotal: number = 0;
- constructor(private saldoService: SaldoService) {}
+  saldoTotal$ = this.saldoService.saldoTotal$;
 
-  ngOnInit(): void {
-    this.saldoService.saldoTotal$.subscribe(saldo => {
-      this.saldoTotal = saldo;
-    });
-  }
+  constructor(private saldoService: SaldoService) {}
 }

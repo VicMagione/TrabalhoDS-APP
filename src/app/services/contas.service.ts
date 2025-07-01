@@ -37,4 +37,10 @@ export class ContasService {
       this.loginService.gerarCabecalhoHTTP() // Garante o envio do token
     );
   }
+  getSaldoTotalPorCliente(clienteId: number): Observable<number> {
+    return this.http.get<number>(
+      `${this.apiUrl}/cliente/${clienteId}/saldo-total`,
+      this.loginService.gerarCabecalhoHTTP()
+    );
+  }
 }

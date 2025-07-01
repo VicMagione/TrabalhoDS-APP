@@ -15,6 +15,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { Conta } from '../../models/conta';
 import { ContasService } from '../../services/contas.service';
+import { SaldoService } from '../../services/saldo.service';
 
 @Component({
   selector: 'app-consultar-clientes',
@@ -24,7 +25,7 @@ import { ContasService } from '../../services/contas.service';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatTableModule],
+    MatTableModule,],
   templateUrl: './consultar-contas.component.html',
   styleUrls: ['./consultar-contas.component.css']
 })
@@ -34,9 +35,11 @@ export class ConsultarContasComponent {
   constructor(private clienteService: ClienteService, 
     private router: Router,
     private loginService: LoginService,
+    private saldoService: SaldoService,
   private contasService: ContasService) { }
 
   ngOnInit(): void {
+        this.carregarSaldoDoCliente();
     this.carregarConta();
   }
 
@@ -75,7 +78,15 @@ export class ConsultarContasComponent {
     });
   }
 
-  calcularSaldoTotal(): number {
-  return this.contas.reduce((total, conta) => total + (conta.saldo || 0), 0);
-}
+  carregarSaldoDoCliente(): void {
+    const dadosToken = this.loginService.extrairDadosToken();
+    const clienteId = Number(dadosToken.sub); // Assume que 'sub' contém o ID do cliente
+
+    this.contasService.getSaldoTotalPorCliente(clienteId).subscribe({
+      next: (saldo) => {
+        this.saldoService.atualizarSaldoTotal(saldo);
+      },
+      error: (err) => console.error('Erro ao carregar saldo:', err)
+    });
+  }
 }
