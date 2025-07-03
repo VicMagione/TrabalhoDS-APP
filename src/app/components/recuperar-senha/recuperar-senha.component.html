@@ -1,0 +1,90 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Recuperação de Senha</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <!-- Passo 1: CPF -->
+    <div *ngIf="passoAtual === 1">
+      <p>Informe seu CPF cadastrado</p>
+      <form [formGroup]="formCpf">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>CPF</mat-label>
+          <input matInput formControlName="cpf" mask="000.000.000-00">
+          <mat-error *ngIf="formCpf.get('cpf')?.hasError('required')">
+            CPF é obrigatório
+          </mat-error>
+          <mat-error *ngIf="formCpf.get('cpf')?.hasError('pattern')">
+            CPF inválido
+          </mat-error>
+        </mat-form-field>
+      </form>
+    </div>
+
+    <!-- Passo 2: E-mail -->
+    <div *ngIf="passoAtual === 2">
+      <p>Agora informe o e-mail associado a este CPF</p>
+      <form [formGroup]="formEmail">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>E-mail</mat-label>
+          <input matInput type="email" formControlName="email">
+          <mat-error *ngIf="formEmail.get('email')?.hasError('required')">
+            E-mail é obrigatório
+          </mat-error>
+          <mat-error *ngIf="formEmail.get('email')?.hasError('email')">
+            E-mail inválido
+          </mat-error>
+        </mat-form-field>
+      </form>
+    </div>
+
+    <!-- Passo 3: Nova senha -->
+    <div *ngIf="passoAtual === 3 && clienteValido">
+      <p>Crie uma nova senha</p>
+      <form [formGroup]="formSenha">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Nova Senha</mat-label>
+          <input matInput type="password" formControlName="novaSenha">
+          <mat-error *ngIf="formSenha.get('novaSenha')?.hasError('required')">
+            Senha é obrigatória
+          </mat-error>
+          <mat-error *ngIf="formSenha.get('novaSenha')?.hasError('minlength')">
+            Mínimo 6 caracteres
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Confirmar Senha</mat-label>
+          <input matInput type="password" formControlName="confirmarSenha">
+          <mat-error *ngIf="formSenha.get('confirmarSenha')?.hasError('required')">
+            Confirmação é obrigatória
+          </mat-error>
+          <mat-error *ngIf="formSenha.hasError('senhasDiferentes')">
+            As senhas não coincidem
+          </mat-error>
+        </mat-form-field>
+      </form>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <button mat-button (click)="passoAtual > 1 ? voltar() : fecharDialogo()">
+      {{ passoAtual > 1 ? 'Voltar' : 'Cancelar' }}
+    </button>
+    
+    <button *ngIf="passoAtual === 1" mat-raised-button color="primary" 
+            (click)="verificarCpf()" [disabled]="formCpf.invalid">
+      Continuar
+    </button>
+    
+    <button *ngIf="passoAtual === 2" mat-raised-button color="primary" 
+            (click)="verificarEmail()" [disabled]="formEmail.invalid">
+      Verificar
+    </button>
+    
+    <button *ngIf="passoAtual === 3 && clienteValido" mat-raised-button color="primary" 
+            (click)="alterarSenha()" [disabled]="formSenha.invalid">
+      Alterar Senha
+    </button>
+  </mat-card-actions>
+</mat-card>

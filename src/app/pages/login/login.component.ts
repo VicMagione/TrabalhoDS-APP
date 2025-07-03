@@ -14,6 +14,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { SaldoService } from '../../services/saldo.service';
+import { RecuperarSenhaComponent } from '../../components/recuperar-senha/recuperar-senha.component';
+import { MatDialog } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-login',
@@ -33,6 +36,7 @@ export class LoginComponent {
 
   constructor(private formBuilder: FormBuilder, private loginService: LoginService,
     private saldoService: SaldoService,
+    private dialog: MatDialog,
     private router: Router) {
     this.formGroup = this.formBuilder.group({
       cpf: ['', Validators.required],
@@ -67,4 +71,9 @@ export class LoginComponent {
   redirectToCadastro(): void {
     this.router.navigate(['/cadastrar']);
   }
+  abrirRecuperarSenha(): void {
+  this.dialog.open(RecuperarSenhaComponent, {
+    width: '450px'
+  });
+}
 }

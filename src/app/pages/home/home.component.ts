@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common'; // Adicione esta linha
 import { LoginService } from '../../services/login.service';
 import { ClienteService } from '../../services/cliente.service';
 import { ContasService } from '../../services/contas.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -30,11 +31,13 @@ import { ContasService } from '../../services/contas.service';
 export class HomeComponent {
   saldoTotal$ = this.saldoService.saldoTotal$;
   nomeCliente: string = '';
+  idCliente: number = 0;
 
   constructor(private saldoService: SaldoService,
     private loginService: LoginService,
     private clienteService: ClienteService,
-    private contaService: ContasService
+    private contaService: ContasService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -45,15 +48,27 @@ export class HomeComponent {
         this.carregarSaldoDoCliente();
       });
     }
-    
+
   }
+  // home.component.ts
+  criarNovaConta(): void {
+    this.contaService.criarContaParaClienteLogado().subscribe({
+      next: (conta) => {
+        this.snackBar.open(`Conta ${conta.numero} criada com sucesso!`, 'Fechar', { duration: 3000 });
+      },
+      error: (err) => {
+        this.snackBar.open(`Erro: ${err.message}`, 'Fechar', { duration: 5000 });
+      }
+    });
+  }
+
 
 
   carregarSaldoDoCliente(): void {
     const dadosToken = this.loginService.extrairDadosToken();
-    const clienteId = Number(dadosToken.sub); // Assume que 'sub' contém o ID do cliente
+    const clienteCpf = Number(dadosToken.sub); 
 
-    this.contaService.getSaldoTotalPorCliente(clienteId).subscribe({
+    this.contaService.getSaldoTotalPorCliente(clienteCpf).subscribe({
       next: (saldo) => {
         this.saldoService.atualizarSaldoTotal(saldo);
       },

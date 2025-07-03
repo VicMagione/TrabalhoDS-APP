@@ -26,12 +26,13 @@ import { SaldoService } from '../../services/saldo.service';
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,],
-  templateUrl: './consultar-contas.component.html',
-  styleUrls: ['./consultar-contas.component.css']
+  templateUrl: './consultar-minhas-contas.component.html',
+  styleUrls: ['./consultar-minhas-contas.component.css']
 })
-export class ConsultarContasComponent {
+export class ConsultarMinhasContasComponent {
   contas: Conta[] = [];
-  displayedColumns: string[] = ['id','cliente', 'numero', 'saldo', 'limite', 'chavePIX', 'acoes'];
+  displayedColumns: string[] = ['id', 'numero', 'saldo', 'limite', 'chavePIX', 'acoes'];
+    saldoTotal$ = this.saldoService.saldoTotal$;
   constructor(private clienteService: ClienteService, 
     private router: Router,
     private loginService: LoginService,
@@ -40,6 +41,7 @@ export class ConsultarContasComponent {
 
   ngOnInit(): void {
     this.carregarConta();
+    this.carregarSaldoDoCliente();
   }
 
   
@@ -47,6 +49,8 @@ export class ConsultarContasComponent {
  excluirConta(id: number): void {
     const dadosToken = this.loginService.extrairDadosToken();
     const role = dadosToken.roles.replace(/ROLE_/,'');
+    console.log('Dados do token:', dadosToken); 
+    console.log('Nível de acesso:', dadosToken?.roles); // Agora usando 'roles'
 
     // Verifique se o usuário tem a role 'ADMIN'
     if (role !== 'ADMIN') { 
@@ -68,10 +72,23 @@ export class ConsultarContasComponent {
 }
 
   carregarConta(): void {
-    this.contasService.listar().subscribe(contas => {
+     const dadosToken = this.loginService.extrairDadosToken();
+    const clienteCpf = Number(dadosToken.sub);
+
+    this.contasService.listarContasInd(clienteCpf).subscribe(contas => {
       this.contas = contas;
     });
   }
 
-  
+  carregarSaldoDoCliente(): void {
+    const dadosToken = this.loginService.extrairDadosToken();
+    const clienteCpf = Number(dadosToken.sub); 
+
+    this.contasService.getSaldoTotalPorCliente(clienteCpf).subscribe({
+      next: (saldo) => {
+        this.saldoService.atualizarSaldoTotal(saldo);
+      },
+      error: (err) => console.error('Erro ao carregar saldo:', err)
+    });
+  }
 }

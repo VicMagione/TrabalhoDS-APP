@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, switchMap, throwError } from 'rxjs';
 import { Conta } from '../models/conta';
 import { appSettings } from '../app.config';
 import { LoginService } from './login.service';
+import { Cliente } from '../models/cliente';
+import { ClienteService } from './cliente.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +14,16 @@ export class ContasService {
 
   private apiUrl = `${appSettings.apiBaseUrl}/contas`;
 
-  constructor(private http: HttpClient, private loginService: LoginService) { }
+  constructor(private http: HttpClient, private loginService: LoginService
+    , private clienteService: ClienteService
+  ) { }
 
   listar(): Observable<Conta[]> {
     return this.http.get<Conta[]>(this.apiUrl, this.loginService.gerarCabecalhoHTTP());
+  }
+
+  listarContasInd(clienteCpf: number): Observable<Conta[]> {
+    return this.http.get<Conta[]>(`${this.apiUrl}/cliente/cpf/${clienteCpf}`, this.loginService.gerarCabecalhoHTTP());
   }
 
   salvar(contas: Conta): Observable<Conta> {
@@ -37,10 +45,27 @@ export class ContasService {
       this.loginService.gerarCabecalhoHTTP() // Garante o envio do token
     );
   }
+
   getSaldoTotalPorCliente(clienteId: number): Observable<number> {
     return this.http.get<number>(
-      `${this.apiUrl}/cliente/${clienteId}/saldo-total`,
+      `${this.apiUrl}/cliente/cpf/${clienteId}/saldo-total`,
       this.loginService.gerarCabecalhoHTTP()
+    );
+  }
+
+  criarContaParaClienteLogado(): Observable<Conta> {
+    const cpf = this.loginService.getClienteCpfFromToken();
+    if (!cpf) return throwError(() => new Error('CPF não encontrado'));
+
+    return this.http.post<Conta>(
+      `${this.apiUrl}`,
+      { cliente: { cpf } },
+      this.loginService.gerarCabecalhoHTTP()
+    ).pipe(
+      catchError(err => {
+        console.error('Erro na requisição:', err);
+        return throwError(() => new Error('Falha ao criar conta. Verifique permissões.'));
+      })
     );
   }
 }

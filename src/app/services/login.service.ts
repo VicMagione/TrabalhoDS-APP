@@ -10,6 +10,7 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class LoginService {
 
+
   private apiUrl = `${appSettings.apiBaseUrl}/auth/login`;
 
   constructor(private http: HttpClient) { }
@@ -43,6 +44,15 @@ export class LoginService {
       return null;
     }
   }
+
+  getClienteCpfFromToken(): string | null{
+    const token = this.obterToken();
+    if (!token) return null;
+
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return String(payload.sub);
+  }
+
   getClienteIdFromToken(): number | null {
     const token = this.obterToken();
     if (!token) return null;
@@ -60,8 +70,8 @@ export class LoginService {
     };
   }
   estaAutenticado(): boolean {
-  return !!this.obterToken(); // Retorna true se existir token
-}
+    return !!this.obterToken(); // Retorna true se existir token
+  }
 
 
 }

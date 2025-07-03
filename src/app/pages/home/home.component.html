@@ -9,6 +9,14 @@
     <div class="home-content">
       <mat-icon class="home-icon">home</mat-icon>
       <p>Selecione uma opção no menu para começar</p>
+      <!-- Botão para adicionar conta -->
+      <button mat-raised-button 
+              color="primary" 
+              (click)="criarNovaConta()"
+              class="add-account-button">
+        <mat-icon>add</mat-icon>
+        Adicionar Conta
+      </button>
     </div>
   </mat-card-content>
 </mat-card>

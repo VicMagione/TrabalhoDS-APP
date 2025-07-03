@@ -1,0 +1,63 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Minhas Contas Cadastrados</mat-card-title>
+        <mat-card-subtitle>Lista das suas Contas do Sistema</mat-card-subtitle>
+        <mat-card-subtitle *ngIf="saldoTotal$ | async as saldo">
+            Seu saldo total: {{ saldo | currency:'BRL':'R$ ':'1.2-2' }}
+        </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+        <div class="table-container">
+            <table mat-table [dataSource]="contas" class="mat-elevation-z8">
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>ID</th>
+                    <td mat-cell *matCellDef="let conta">{{ conta.id }}</td>
+                </ng-container>
+                <!-- Coluna do Cliente -->
+                <ng-container matColumnDef="cliente">
+                    <th mat-header-cell *matHeaderCellDef>Cliente</th>
+                    <td mat-cell *matCellDef="let conta">{{ conta.cliente.nome }}</td>
+                </ng-container>
+
+                <!-- Numero Column -->
+                <ng-container matColumnDef="numero">
+                    <th mat-header-cell *matHeaderCellDef>Numero</th>
+                    <td mat-cell *matCellDef="let conta">{{ conta.numero }}</td>
+                </ng-container>
+
+                <!-- saldo Column -->
+                <ng-container matColumnDef="saldo">
+                    <th mat-header-cell *matHeaderCellDef>Saldo</th>
+                    <td mat-cell *matCellDef="let conta">{{ conta.saldo }}</td>
+                </ng-container>
+
+                <!-- limite Column -->
+                <ng-container matColumnDef="limite">
+                    <th mat-header-cell *matHeaderCellDef>Limite</th>
+                    <td mat-cell *matCellDef="let conta">{{ conta.limite }}</td>
+                </ng-container>
+
+                <!-- chavePIX Column -->
+                <ng-container matColumnDef="chavePIX">
+                    <th mat-header-cell *matHeaderCellDef>chavePIX</th>
+                    <td mat-cell *matCellDef="let conta">{{ conta.chavePIX }}</td>
+                </ng-container>
+
+                <!-- Ações Column -->
+                <ng-container matColumnDef="acoes">
+                    <th mat-header-cell *matHeaderCellDef>Ações</th>
+                    <td mat-cell *matCellDef="let conta">
+                        <button mat-icon-button color="warn" (click)="excluirConta(conta.id!)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </mat-card-content>
+</mat-card>

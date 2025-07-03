@@ -34,8 +34,9 @@ export class MenuComponent implements OnInit {
 
   menu = [
     { descricao: 'Home', rota: '/home', icone: 'home', niveis: ['ADMIN', 'GESTOR', 'CLIENTE'] },
-    { descricao: 'Consultar Contas', rota: '/contas', icone: 'account_balance', niveis: ['ADMIN', 'GESTOR', 'CLIENTE'] },
-    { descricao: 'Consultar Clientes', rota: '/consultar', icone: 'people', niveis: ['ADMIN', 'GESTOR', 'CLIENTE'] }
+    { descricao: 'Consultar Todas Contas', rota: '/contas', icone: 'account_balance', niveis: ['ADMIN'] },
+    { descricao: 'Consultar Minhas Contas', rota: '/minhascontas', icone: 'account_balance', niveis: ['ADMIN', 'GESTOR', 'CLIENTE'] },
+    { descricao: 'Consultar Clientes', rota: '/consultar', icone: 'people', niveis: ['ADMIN'] }
   ];
 
   constructor(
@@ -44,13 +45,13 @@ export class MenuComponent implements OnInit {
     private clienteService: ClienteService
   ) { }
 
-   ngOnInit(): void {
+  ngOnInit(): void {
     this.verificarAutenticacao();
   }
 
   verificarAutenticacao(): void {
     this.estaAutenticado = this.loginService.estaAutenticado();
-    
+
     if (this.estaAutenticado) {
       const dadosToken = this.loginService.extrairDadosToken();
       const clienteId = this.loginService.getClienteIdFromToken();

@@ -1,0 +1,13 @@
+.w-100 {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+mat-card {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+p {
+  margin-bottom: 20px;
+}

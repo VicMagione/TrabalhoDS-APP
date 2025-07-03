@@ -5,6 +5,7 @@ import { CadastrarClienteComponent } from './pages/cadastrar-clientes/cadastrar-
 import { ConsultarClientesComponent } from './pages/consultar-clientes/consultar-clientes.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ConsultarContasComponent } from './pages/consultar-contas/consultar-contas.component';
+import { ConsultarMinhasContasComponent } from './pages/consultar-minhas-contas/consultar-minhas-contas.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -12,6 +13,7 @@ export const routes: Routes = [
   { path: 'cadastrar/:id', component: CadastrarClienteComponent },
   { path: 'consultar', component: ConsultarClientesComponent },
   { path: 'contas', component: ConsultarContasComponent },
-  {path: 'login', component: LoginComponent },
-  { path: '', component: LoginComponent}
+  { path: 'login', component: LoginComponent },
+  { path: 'minhascontas', component: ConsultarMinhasContasComponent },
+  { path: '', component: LoginComponent }
 ];
