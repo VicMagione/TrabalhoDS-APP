@@ -45,6 +45,21 @@ export class ContasService {
       this.loginService.gerarCabecalhoHTTP() // Garante o envio do token
     );
   }
+  atualizarLimite(id: number, novoLimite: number): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/${id}/limite`, { limite: novoLimite }, this.loginService.gerarCabecalhoHTTP());
+  }
+
+  atualizarChavePix(id: number, chavePix: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/${id}/chave-pix`, { chavePIX: chavePix }, this.loginService.gerarCabecalhoHTTP());
+  }
+
+  listarContasPorCpf(cpf: number): Observable<Conta[]> {
+    return this.http.get<Conta[]>(`${this.apiUrl}/cliente/cpf/${cpf}`, this.loginService.gerarCabecalhoHTTP());
+  }
+
+  verificarChavePixExistente(chavePix: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/verificar-chave-pix/${encodeURIComponent(chavePix)}`);
+  }
 
   getSaldoTotalPorCliente(clienteId: number): Observable<number> {
     return this.http.get<number>(

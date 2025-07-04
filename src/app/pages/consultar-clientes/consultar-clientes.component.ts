@@ -2,13 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClienteService } from '../../services/cliente.service';
 import { Cliente } from '../../models/cliente';
-import { Router } from '@angular/router';
 import { LoginService } from '../../services/login.service';
 import { EditarClienteComponent } from '../../components/editar-cliente/editar-cliente.component'; 
 import { MatDialog } from '@angular/material/dialog';
-
-
-// Importações do Angular Material
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -32,7 +28,7 @@ import { MatSelectModule } from '@angular/material/select';
 export class ConsultarClientesComponent {
   clientes: Cliente[] = [];
   displayedColumns: string[] = ['id', 'nome', 'cpf', 'email', 'telefone', 'acoes'];
-  constructor(private clienteService: ClienteService, private router: Router,
+  constructor(private clienteService: ClienteService, 
       private dialog: MatDialog,
     private loginService: LoginService) { }
 

@@ -1,0 +1,17 @@
+.operacoes-section {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+}
+
+.tab-content {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.mat-form-field {
+  flex: 1;
+}

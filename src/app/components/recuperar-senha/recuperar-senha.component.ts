@@ -40,7 +40,7 @@ export class RecuperarSenhaComponent {
     private snackBar: MatSnackBar
   ) {
     this.formCpf = this.fb.group({
-      cpf: ['', [Validators.required, ]]
+      cpf: ['', [Validators.required,]]
     });
 
     this.formEmail = this.fb.group({
@@ -48,15 +48,15 @@ export class RecuperarSenhaComponent {
     });
 
     this.formSenha = this.fb.group({
-      novaSenha: ['', [Validators.required, Validators.minLength(5)]],
+      novaSenha: ['', [Validators.required, Validators.minLength(3)]],
       confirmarSenha: ['', Validators.required]
-    }, {validator: this.senhasIguais});
+    }, { validator: this.senhasIguais });
   }
 
-  senhasIguais(group: FormGroup): {[key: string]: any} | null {
+  senhasIguais(group: FormGroup): { [key: string]: any } | null {
     const senha = group.get('novaSenha')?.value;
     const confirmar = group.get('confirmarSenha')?.value;
-    return senha === confirmar ? null : {senhasDiferentes: true};
+    return senha === confirmar ? null : { senhasDiferentes: true };
   }
 
   verificarCpf(): void {
@@ -76,60 +76,69 @@ export class RecuperarSenhaComponent {
           this.passoAtual = 3;
         },
         error: () => {
-          this.snackBar.open('Combinação de CPF e e-mail não encontrada', 'Fechar', {duration: 3000});
+          this.snackBar.open('Combinação de CPF e e-mail não encontrada', 'Fechar', { duration: 3000 });
         }
       });
     }
   }
 
   alterarSenha(): void {
-  if (this.formSenha.valid && this.clienteValido) {
-    const cpf = this.formCpf.value.cpf;
-    const novaSenha = this.formSenha.value.novaSenha;
+    if (this.formSenha.valid && this.clienteValido) {
+      const cpf = this.formCpf.value.cpf;
+      const novaSenha = this.formSenha.value.novaSenha;
+      const email = this.formEmail.value.email;
 
-    this.clienteService.buscarPorCpf(cpf).subscribe({
-      next: (cliente: any) => { // Alterado para receber o objeto diretamente
-        if (!cliente) {
-          throw new Error('Cliente não encontrado');
-        }
 
-        // Cria um objeto apenas com os campos necessários para atualização
-        const dadosAtualizacao = {
-          nome: cliente.nome,
-          cpf: cliente.cpf,
-          senha: novaSenha, // Nova senha (será codificada no backend)
-          email: cliente.email,
-          telefone: cliente.telefone
-        };
+      this.clienteService.buscarPorCpf(cpf).subscribe({
 
-        this.clienteService.atualizarCliente(cpf, dadosAtualizacao).subscribe({
-          next: () => {
-            this.snackBar.open('Senha alterada com sucesso!', 'Fechar', {
-              duration: 3000,
-              panelClass: ['sucesso-snackbar']
-            });
-            this.dialogRef.close();
-          },
-          error: (err) => {
-            this.snackBar.open(`Erro ao atualizar: ${err.message}`, 'Fechar', {
-              duration: 3000,
-              panelClass: ['erro-snackbar']
+        next: (cliente: any) => {
+          if (!cliente) {
+            throw new Error('Cliente não encontrado');
+          }
+
+          if (cliente.email != email) {
+              this.snackBar.open('Combinação de CPF e e-mail não encontrada', 'Fechar', { duration: 3000 });
+            this.fecharDialogo();
+          }
+          else {
+            const dadosAtualizacao = {
+              nome: cliente.nome,
+              cpf: cliente.cpf,
+              senha: novaSenha, // Nova senha (será codificada no backend)
+              email: cliente.email,
+              telefone: cliente.telefone
+            };
+
+            this.clienteService.atualizarCliente(cpf, dadosAtualizacao).subscribe({
+              next: () => {
+                this.snackBar.open('Senha alterada com sucesso!', 'Fechar', {
+                  duration: 3000,
+                  panelClass: ['sucesso-snackbar']
+                });
+                this.dialogRef.close();
+              },
+              error: (err) => {
+                this.snackBar.open(`Erro ao atualizar: ${err.message}`, 'Fechar', {
+                  duration: 3000,
+                  panelClass: ['erro-snackbar']
+                });
+              }
             });
           }
-        });
-      },
-      error: (err) => {
-        this.snackBar.open(`Erro ao buscar cliente: ${err.message}`, 'Fechar', {
-          duration: 3000,
-          panelClass: ['erro-snackbar']
-        });
-      }
-    });
+        },
+
+        error: (err) => {
+          this.snackBar.open(`Erro ao buscar cliente: ${err.message}`, 'Fechar', {
+            duration: 3000,
+            panelClass: ['erro-snackbar']
+          });
+        }
+      });
+    }
   }
-}
   fecharDialogo(): void {
-  this.dialogRef.close();
-}
+    this.dialogRef.close();
+  }
   voltar(): void {
     this.passoAtual--;
   }

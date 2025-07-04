@@ -31,47 +31,49 @@ import { SaldoService } from '../../services/saldo.service';
 })
 export class ConsultarContasComponent {
   contas: Conta[] = [];
-  displayedColumns: string[] = ['id','cliente', 'numero', 'saldo', 'limite', 'chavePIX', 'acoes'];
-  constructor(private clienteService: ClienteService, 
-    private router: Router,
+  displayedColumns: string[] = ['id', 'cliente', 'numero', 'saldo', 'limite', 'chavePIX', 'acoes'];
+  chavePixExistente = false;
+  validandoChavePix = false;
+  constructor(
     private loginService: LoginService,
-    private saldoService: SaldoService,
-  private contasService: ContasService) { }
+
+    private contasService: ContasService) { }
 
   ngOnInit(): void {
     this.carregarConta();
   }
 
-  
 
- excluirConta(id: number): void {
+
+  excluirConta(id: number): void {
     const dadosToken = this.loginService.extrairDadosToken();
-    const role = dadosToken.roles.replace(/ROLE_/,'');
+    const role = dadosToken.roles.replace(/ROLE_/, '');
 
     // Verifique se o usuário tem a role 'ADMIN'
-    if (role !== 'ADMIN') { 
-        alert('Apenas administradores podem excluir contas.');
-        return;
+    if (role !== 'ADMIN') {
+      alert('Apenas administradores podem excluir contas.');
+      return;
     }
 
     if (confirm('Tem certeza que deseja excluir esta conta?')) {
-        this.clienteService.excluir(id).subscribe({
-            next: () => {
-                alert('Conta excluída com sucesso!');
-                this.carregarConta();
-            },
-            error: (err) => {
-                alert('Erro ao excluir: ' + (err.error?.message || err.statusText));
-            }
-        });
+      this.contasService.excluir(id).subscribe({
+        next: () => {
+          alert('Conta excluída com sucesso!');
+          this.carregarConta();
+        },
+        error: (err) => {
+          alert('Erro ao excluir: ' + (err.error?.message || err.statusText));
+        }
+      });
     }
-}
+  }
 
   carregarConta(): void {
     this.contasService.listar().subscribe(contas => {
       this.contas = contas;
     });
   }
-
   
+
+
 }
