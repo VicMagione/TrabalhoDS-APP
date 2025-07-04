@@ -19,11 +19,12 @@ export class ClienteService {
   }
 
   salvar(cliente: Cliente): Observable<Cliente> {
-    if (cliente.cpf) {
-      return this.http.put<Cliente>(`${this.apiUrl}/cpf/${cliente.cpf}`, cliente, this.loginService.gerarCabecalhoHTTP());
-    } else {
-      return this.http.post<Cliente>(this.apiUrl, cliente);
-    }
+    return this.http.put<Cliente>(`${this.apiUrl}/cpf/${cliente.cpf}`, cliente, this.loginService.gerarCabecalhoHTTP());
+
+  }
+  criar(cliente: Cliente): Observable<Cliente> {
+    return this.http.post<Cliente>(this.apiUrl, cliente);
+
   }
   atualizarCliente(cpf: string, clienteData: any): Observable<any> {
     return this.http.put(

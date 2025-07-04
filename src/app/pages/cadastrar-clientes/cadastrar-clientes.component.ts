@@ -67,7 +67,7 @@ export class CadastrarClienteComponent {
 
   onSubmit(): void {
     if (this.formulario.valid) {
-      this.clienteService.salvar(this.formulario.value).subscribe({
+      this.clienteService.criar(this.formulario.value).subscribe({
         next: (clienteSalvo) => {
           alert('Cliente cadastrado com sucesso!');
           this.loginService.autenticar(
