@@ -1,7 +1,7 @@
 import { Cliente } from "./cliente";
 
 export class Conta {
-    id?: number;
+    id!: number;
     numero!: string;
     saldo!: number;
     limite!: number;

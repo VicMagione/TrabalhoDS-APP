@@ -83,4 +83,29 @@ export class ContasService {
       })
     );
   }
+
+  realizarSaque(contaId: number, valor: number): Observable<any> {
+    return this.http.patch(
+      `${this.apiUrl}/${contaId}/saque`,
+      { valor },
+      this.loginService.gerarCabecalhoHTTP()
+    ).pipe(
+      catchError(err => {
+        console.error('Erro ao realizar saque:', err);
+        return throwError(() => new Error(err.error?.message || 'Erro ao realizar saque'));
+      })
+    );
+  }
+  realizarDeposito(contaId: number, valor: number): Observable<any> {
+    return this.http.patch(
+      `${this.apiUrl}/${contaId}/deposito`,
+      { valor },
+      this.loginService.gerarCabecalhoHTTP()
+    ).pipe(
+      catchError(err => {
+        console.error('Erro ao realizar deposito:', err);
+        return throwError(() => new Error(err.error?.message || 'Erro ao realizar deposito'));
+      })
+    );
+  }
 }

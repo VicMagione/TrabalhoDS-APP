@@ -1,22 +1,38 @@
 <mat-card class="home-card">
   <mat-card-header>
-<mat-card-title>Bem-vindo, {{ nomeCliente }}</mat-card-title>
+    <mat-card-title>Bem-vindo, {{ nomeCliente }}</mat-card-title>
     <mat-card-subtitle *ngIf="saldoTotal$ | async as saldo">
       Seu saldo total: {{ saldo | currency:'BRL':'R$ ':'1.2-2' }}
-    </mat-card-subtitle> </mat-card-header>
+    </mat-card-subtitle>
+  </mat-card-header>
 
   <mat-card-content>
     <div class="home-content">
       <mat-icon class="home-icon">home</mat-icon>
       <p>Selecione uma opção no menu para começar</p>
+
       <!-- Botão para adicionar conta -->
-      <button mat-raised-button 
-              color="primary" 
-              (click)="criarNovaConta()"
-              class="add-account-button">
+      <button mat-raised-button color="primary" (click)="criarNovaConta()" class="add-account-button">
         <mat-icon>add</mat-icon>
         Adicionar Conta
       </button>
+
+      <!-- Botão para saque (versão corrigida) -->
+      <!-- Versão mais segura com ng-container -->
+      <ng-container *ngIf="(contas$ | async) as contas">
+        <button *ngIf="contas.length > 0" mat-raised-button color="accent" (click)="abrirDialogoSaque()"
+          class="withdraw-button">
+          <mat-icon>money_off</mat-icon>
+          Realizar Saque
+        </button>
+      </ng-container>
+      <ng-container *ngIf="(contas$ | async) as contas">
+        <button *ngIf="contas.length > 0" mat-raised-button color="accent" (click)="abrirDialogoDeposito()"
+          class="withdraw-button">
+          <mat-icon>money_off</mat-icon>
+          Realizar Deposito
+        </button>
+      </ng-container>
     </div>
   </mat-card-content>
 </mat-card>
