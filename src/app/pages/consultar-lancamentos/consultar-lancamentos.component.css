@@ -1,0 +1,19 @@
+/* consultar-lancamentos.component.css */
+.filtro-container {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.mat-form-field {
+    width: 300px;
+    margin-right: 20px;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+mat-card {
+    margin: 20px;
+}

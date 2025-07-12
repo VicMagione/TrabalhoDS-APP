@@ -36,7 +36,8 @@ export class MenuComponent implements OnInit {
     { descricao: 'Home', rota: '/home', icone: 'home', niveis: ['ADMIN', 'GESTOR', 'CLIENTE'] },
     { descricao: 'Consultar Todas Contas', rota: '/contas', icone: 'account_balance', niveis: ['ADMIN'] },
     { descricao: 'Consultar Minhas Contas', rota: '/minhascontas', icone: 'account_balance', niveis: ['ADMIN', 'GESTOR', 'CLIENTE'] },
-    { descricao: 'Consultar Clientes', rota: '/consultar', icone: 'people', niveis: ['ADMIN'] }
+    { descricao: 'Consultar Clientes', rota: '/consultar', icone: 'people', niveis: ['ADMIN'] },
+    { descricao: 'Conslutar Lançamentos', rota: '/lancamentos', icone: 'attach_money', niveis: ['ADMIN', 'GESTOR'] }
   ];
 
   constructor(

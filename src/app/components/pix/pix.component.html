@@ -1,0 +1,27 @@
+<div class="dialog-header">
+    <h2 mat-dialog-title>Realizar Saque</h2>
+</div>
+<div mat-dialog-content>
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Selecione a Conta de Origin</mat-label>
+        <mat-select [(ngModel)]="contaOriginSelecionada">
+            <mat-option *ngFor="let conta of data.contas" [value]="conta">
+                {{conta.chavePIX}} - Saldo: {{conta.saldo | currency:'BRL':'R$ ':'1.2-2'}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Pix de Destino</mat-label>
+        <input matInput type="string" [(ngModel)]="pixDestino" min="0.01" step="0.01">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Valor do Saque</mat-label>
+        <input matInput type="number" [(ngModel)]="valortransferencia" min="0.01" step="0.01">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-button (click)="fechar()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="realizarTransferir()">Confirmar</button>
+</div>

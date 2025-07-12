@@ -6,6 +6,7 @@ import { ConsultarClientesComponent } from './pages/consultar-clientes/consultar
 import { LoginComponent } from './pages/login/login.component';
 import { ConsultarContasComponent } from './pages/consultar-contas/consultar-contas.component';
 import { ConsultarMinhasContasComponent } from './pages/consultar-minhas-contas/consultar-minhas-contas.component';
+import { ConsultarLancamentosComponent } from './pages/consultar-lancamentos/consultar-lancamentos.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -15,5 +16,6 @@ export const routes: Routes = [
   { path: 'contas', component: ConsultarContasComponent },
   { path: 'login', component: LoginComponent },
   { path: 'minhascontas', component: ConsultarMinhasContasComponent },
+  { path: 'lancamentos', component: ConsultarLancamentosComponent },
   { path: '', component: LoginComponent }
 ];

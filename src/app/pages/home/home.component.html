@@ -17,8 +17,6 @@
         Adicionar Conta
       </button>
 
-      <!-- Botão para saque (versão corrigida) -->
-      <!-- Versão mais segura com ng-container -->
       <ng-container *ngIf="(contas$ | async) as contas">
         <button *ngIf="contas.length > 0" mat-raised-button color="accent" (click)="abrirDialogoSaque()"
           class="withdraw-button">
@@ -26,13 +24,32 @@
           Realizar Saque
         </button>
       </ng-container>
+
       <ng-container *ngIf="(contas$ | async) as contas">
         <button *ngIf="contas.length > 0" mat-raised-button color="accent" (click)="abrirDialogoDeposito()"
           class="withdraw-button">
-          <mat-icon>money_off</mat-icon>
+          <mat-icon>attach_money</mat-icon>
           Realizar Deposito
         </button>
       </ng-container>
+
+      <ng-container *ngIf="(contas$ | async) as contas">
+        <button *ngIf="contas.length > 0" mat-raised-button color="accent" (click)="abrirDialogoTransferencia()"
+          class="withdraw-button">
+          <mat-icon>compare_arrows</mat-icon>
+          Realizar Transferencia
+        </button>
+      </ng-container>
+
+      <ng-container *ngIf="(contas$ | async) as contas">
+        <button *ngIf="contas.length > 0" mat-raised-button color="accent" (click)="abrirDialogoPix()"
+          class="withdraw-button">
+          <mat-icon>compare_arrows</mat-icon>
+          Realizar Pix
+        </button>
+      </ng-container>
+
+
     </div>
   </mat-card-content>
 </mat-card>

@@ -15,7 +15,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { Conta } from '../../models/conta';
 import { ContasService } from '../../services/contas.service';
-import { SaldoService } from '../../services/saldo.service';
 
 @Component({
   selector: 'app-consultar-clientes',

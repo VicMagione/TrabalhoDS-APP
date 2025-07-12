@@ -4,8 +4,6 @@ import { catchError, Observable, switchMap, throwError } from 'rxjs';
 import { Conta } from '../models/conta';
 import { appSettings } from '../app.config';
 import { LoginService } from './login.service';
-import { Cliente } from '../models/cliente';
-import { ClienteService } from './cliente.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +13,7 @@ export class ContasService {
   private apiUrl = `${appSettings.apiBaseUrl}/contas`;
 
   constructor(private http: HttpClient, private loginService: LoginService
-    , private clienteService: ClienteService
+
   ) { }
 
   listar(): Observable<Conta[]> {
@@ -105,6 +103,31 @@ export class ContasService {
       catchError(err => {
         console.error('Erro ao realizar deposito:', err);
         return throwError(() => new Error(err.error?.message || 'Erro ao realizar deposito'));
+      })
+    );
+  }
+
+  realizarTransferir(contaOriginId: number, contaDestinoId: number,valor: number): Observable<any> {
+    return this.http.patch(
+      `${this.apiUrl}/${contaOriginId}/${contaDestinoId}/transferencia`,
+      { valor },
+      this.loginService.gerarCabecalhoHTTP()
+    ).pipe(
+      catchError(err => {
+        console.error('Erro ao realizar transferencia:', err);
+        return throwError(() => new Error(err.error?.message || 'Erro ao realizar transferencia'));
+      })
+    );
+  }
+  realizarPix(pixOrigin: string, pixDestino: string,valor: number): Observable<any> {
+    return this.http.patch(
+      `${this.apiUrl}/${pixOrigin}/${pixDestino}/pix`,
+      { valor },
+      this.loginService.gerarCabecalhoHTTP()
+    ).pipe(
+      catchError(err => {
+        console.error('Erro ao realizar transferencia:', err);
+        return throwError(() => new Error(err.error?.message || 'Erro ao realizar transferencia'));
       })
     );
   }

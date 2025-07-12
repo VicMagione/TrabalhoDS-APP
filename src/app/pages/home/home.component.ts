@@ -17,6 +17,8 @@ import { Observable } from 'rxjs';
 import { SaqueComponent } from '../../components/saque/saque.component';
 import { Conta } from '../../models/conta';
 import { DepositoComponent } from '../../components/deposito/deposito.component';
+import { TransferirComponent } from '../../components/transferir/transferir.component';
+import { PixComponent } from '../../components/pix/pix.component';
 
 @Component({
   selector: 'app-home',
@@ -85,9 +87,8 @@ export class HomeComponent {
 
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          // Aqui você pode tratar o resultado do saque
           this.snackBar.open(`Saque realizado com sucesso!`, 'Fechar', { duration: 3000 });
-          this.carregarSaldoDoCliente(); // Atualiza o saldo
+          this.carregarSaldoDoCliente(); 
         }
       });
     });
@@ -109,6 +110,37 @@ export class HomeComponent {
     });
   }
 
+  abrirDialogoTransferencia(): void {
+    this.contas$.subscribe(contas => {
+      const dialogRef = this.dialog.open(TransferirComponent, {
+        width: '400px',
+        data: { contas }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.snackBar.open(`Transferencia realizado com sucesso!`, 'Fechar', { duration: 3000 });
+          this.carregarSaldoDoCliente(); 
+        }
+      });
+    });
+  }
+
+  abrirDialogoPix(): void {
+    this.contas$.subscribe(contas => {
+      const dialogRef = this.dialog.open(PixComponent, {
+        width: '400px',
+        data: { contas }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.snackBar.open(`Pix realizado com sucesso!`, 'Fechar', { duration: 3000 });
+          this.carregarSaldoDoCliente(); 
+        }
+      });
+    });
+  }
   carregarSaldoDoCliente(): void {
     const dadosToken = this.loginService.extrairDadosToken();
     const clienteCpf = Number(dadosToken.sub); 
