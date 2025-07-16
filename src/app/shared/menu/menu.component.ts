@@ -37,6 +37,7 @@ export class MenuComponent implements OnInit {
     { descricao: 'Consultar Todas Contas', rota: '/contas', icone: 'account_balance', niveis: ['ADMIN'] },
     { descricao: 'Consultar Minhas Contas', rota: '/minhascontas', icone: 'account_balance', niveis: ['ADMIN', 'GESTOR', 'CLIENTE'] },
     { descricao: 'Consultar Clientes', rota: '/consultar', icone: 'people', niveis: ['ADMIN'] },
+    { descricao: 'Consultar Acessos', rota: '/acessos', icone: 'people', niveis: ['ADMIN'] },
     { descricao: 'Conslutar Lançamentos', rota: '/lancamentos', icone: 'attach_money', niveis: ['ADMIN', 'GESTOR'] }
   ];
 

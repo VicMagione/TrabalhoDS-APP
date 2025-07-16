@@ -12,9 +12,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { Conta } from '../../models/conta';
 import { ContasService } from '../../services/contas.service';
+import { AcessosService } from '../../services/acessos.service';
+import { Acesso } from '../../models/acesso';
 
 @Component({
-  selector: 'app-consultar-clientes',
+  selector: 'app-consultar-acessos',
   standalone: true,
   imports: [CommonModule, MatCardModule, MatSelectModule,
     MatIconModule,
@@ -22,21 +24,19 @@ import { ContasService } from '../../services/contas.service';
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,],
-  templateUrl: './consultar-contas.component.html',
-  styleUrls: ['./consultar-contas.component.css']
+  templateUrl: './consultar-acessos.component.html',
+  styleUrls: ['./consultar-acessos.component.css']
 })
-export class ConsultarContasComponent {
-  contas: Conta[] = [];
-  displayedColumns: string[] = ['id', 'cliente', 'numero', 'saldo', 'limite', 'chavePIX', 'acoes'];
-  chavePixExistente = false;
-  validandoChavePix = false;
+export class ConsultarAcessosComponent {
+  acessos: Acesso[] = [];
+  displayedColumns: string[] = ['id', 'data','cliente', 'acoes'];
   constructor(
     private loginService: LoginService,
-
-    private contasService: ContasService) { }
+    private acessoService: AcessosService,
+    private contasService: ContasService,) { }
 
   ngOnInit(): void {
-    this.carregarConta();
+    this.carregarAcessos();
   }
 
 
@@ -47,15 +47,15 @@ export class ConsultarContasComponent {
 
     // Verifique se o usuário tem a role 'ADMIN'
     if (role !== 'ADMIN') {
-      alert('Apenas administradores podem excluir contas.');
+      alert('Apenas administradores podem excluir Acesso.');
       return;
     }
 
-    if (confirm('Tem certeza que deseja excluir esta conta?')) {
-      this.contasService.excluir(id).subscribe({
+    if (confirm('Tem certeza que deseja excluir esta Acesso?')) {
+      this.acessoService.excluir(id).subscribe({
         next: () => {
-          alert('Conta excluída com sucesso!');
-          this.carregarConta();
+          alert('Acesso excluída com sucesso!');
+          this.carregarAcessos();
         },
         error: (err) => {
           alert('Erro ao excluir: ' + (err.error?.message || err.statusText));
@@ -64,9 +64,9 @@ export class ConsultarContasComponent {
     }
   }
 
-  carregarConta(): void {
-    this.contasService.listar().subscribe(contas => {
-      this.contas = contas;
+  carregarAcessos(): void {
+    this.acessoService.listar().subscribe(acessos => {
+      this.acessos = acessos;
     });
   }
   

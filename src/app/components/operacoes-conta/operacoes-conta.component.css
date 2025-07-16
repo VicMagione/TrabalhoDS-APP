@@ -1,0 +1,21 @@
+/* operacoes-conta.component.css */
+.operacoes-card {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.full-width {
+  width: 100%;
+}
+
+button {
+  align-self: flex-end;
+}

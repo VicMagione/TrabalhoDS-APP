@@ -1,0 +1,65 @@
+<mat-card class="operacoes-card">
+  <mat-card-header>
+    <mat-card-title>Operações de Conta</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-tab-group>
+      <!-- Tab para atualizar limite -->
+      <mat-tab label="Novo Limite">
+        <div class="tab-content">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Selecione uma conta</mat-label>
+            <mat-select [(ngModel)]="selectedConta">
+              <mat-option *ngFor="let conta of contas" [value]="conta">
+                {{conta.numero}} - Saldo: {{conta.saldo | currency:'BRL'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Novo Limite</mat-label>
+            <input matInput type="number" [formControl]="limiteControl">
+            <mat-error *ngIf="limiteControl.hasError('required')">
+              Limite é obrigatório
+            </mat-error>
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" 
+                  (click)="atualizarLimite()"
+                  [disabled]="!selectedConta || limiteControl.invalid">
+            Confirmar
+          </button>
+        </div>
+      </mat-tab>
+
+      <!-- Tab para atualizar chave PIX -->
+      <mat-tab label="Chave PIX">
+        <div class="tab-content">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Selecione uma conta</mat-label>
+            <mat-select [(ngModel)]="selectedConta">
+              <mat-option *ngFor="let conta of contas" [value]="conta">
+                {{conta.numero}} - Saldo: {{conta.saldo | currency:'BRL'}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nova Chave PIX</mat-label>
+            <input matInput [formControl]="chavePixControl">
+            <mat-error *ngIf="chavePixControl.hasError('required')">
+              Chave PIX é obrigatória
+            </mat-error>
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" 
+                  (click)="atualizarChavePix()"
+                  [disabled]="!selectedConta || chavePixControl.invalid">
+            Cadastrar
+          </button>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>

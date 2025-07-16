@@ -45,7 +45,6 @@ export class ClienteService {
     return this.http.get<Cliente>(`${this.apiUrl}/${id}`, this.loginService.gerarCabecalhoHTTP());
   }
 
-  // cliente.service.ts
   excluir(id: number): Observable<void> {
     return this.http.delete<void>(
       `${this.apiUrl}/${id}`,
