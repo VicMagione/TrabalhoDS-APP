@@ -104,12 +104,12 @@ export class RecuperarSenhaComponent {
             const dadosAtualizacao = {
               nome: cliente.nome,
               cpf: cliente.cpf,
-              senha: novaSenha, // Nova senha (será codificada no backend)
+              senha: novaSenha, 
               email: cliente.email,
               telefone: cliente.telefone
             };
 
-            this.clienteService.atualizarCliente(cpf, dadosAtualizacao).subscribe({
+            this.clienteService.atualizarClienteSenha(cpf, dadosAtualizacao).subscribe({
               next: () => {
                 this.snackBar.open('Senha alterada com sucesso!', 'Fechar', {
                   duration: 3000,

@@ -27,9 +27,11 @@ export class ClienteService {
 
   }
   atualizarCliente(cpf: string, clienteData: any): Observable<any> {
-    return this.http.put(
-      `${this.apiUrl}/cpf/${cpf}`,
-      clienteData
+    return this.http.put(`${this.apiUrl}/cpf/${cpf}`,clienteData,this.loginService.gerarCabecalhoHTTP()
+    );
+  }
+  atualizarClienteSenha(cpf: string, clienteData: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/senha/cpf/${cpf}`,clienteData,this.loginService.gerarCabecalhoHTTP()
     );
   }
 
@@ -48,7 +50,7 @@ export class ClienteService {
   excluir(id: number): Observable<void> {
     return this.http.delete<void>(
       `${this.apiUrl}/${id}`,
-      this.loginService.gerarCabecalhoHTTP() // Garante o envio do token
+      this.loginService.gerarCabecalhoHTTP()
     );
   }
 

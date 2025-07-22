@@ -34,7 +34,6 @@ export class EditarClienteComponent {
     this.form = this.fb.group({
       id: [data.cliente.id],
       nome: [data.cliente.nome, Validators.required],
-      cpf: [data.cliente.cpf, Validators.required],
       email: [data.cliente.email, [Validators.required]],
       telefone: [data.cliente.telefone, Validators.required]
     });
