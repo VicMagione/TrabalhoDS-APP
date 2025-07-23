@@ -6,9 +6,6 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideNgxMask } from 'ngx-mask';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
-import { NgModule } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
 
 
 export const appConfig: ApplicationConfig = {
